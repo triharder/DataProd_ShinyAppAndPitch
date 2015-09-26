@@ -1,0 +1,113 @@
+<style>
+.small-code pre code {
+  font-size: 1.5em;
+}
+</style>
+
+Shiny Baseball Statistics
+========================================================
+transition: rotate
+author: triharder
+date:   20 Sep 2015
+width: 1440
+height: 900
+autosize: true
+
+    Course Project: Develop a Shiny app and a presentation to pitch the app.
+
+    Developing Data Products
+
+    Data Science Specialization
+
+    Coursera - Johns Hopkins University
+
+Quick Reference Guide - App Cheatsheet
+========================================================
+left: 55%
+- Pick the baseball statsistic of interest from the following ==>
+    - Defaults to triple crown statistics:
+        - Homeruns
+        - Runs Batted In
+        - Batting Average
+- Click on arrows to sort statistic of interest.
+    - Defaults to HR; click twice for max number to show at top.
+- Use top right search bar to search within results.
+- Use bottom text entry bars to filter respective fields.
+
+***
+    - Homeruns
+    - Runs Batted In
+    - Runs
+    - Batting Average
+    - Hits, Doubles or Triples individually
+    - Extra Base Hits
+    - Plate Appearances
+    - Walks
+    - Adjusted Walks (including IBB & HBP)
+    - Stolen Bases
+    - Sacrifice (includes Hits and Flies)
+    - Strikeouts
+    - Games Played and Plate Appearances
+    - Years Played
+    - Teams
+
+
+Method
+========================================================
+transition: rotate
+
+- Summarized batting statistics by player over career
+- Filtered on plate appearances for award eligibility
+    - A player must average 300 plate appearnces per season to be included.
+- Joined with actual player and team names
+
+- Input selected by user based on statistic of interest
+- Output displays maximum value of statistic chosen
+
+The Code at Work
+========================================================
+transition: rotate
+class: small-code
+
+1 - Global.R extracts, transforms, and loads data for Shiny app.
+
+```{r}
+library(Lahman)
+library(dplyr)
+#Gather batting statistics of interest
+stats <- select(Batting,c(1,2,4,6:14,16:21))
+names(stats)
+```
+
+2 - User Interface defines layout and inputs for Shiny server.
+
+    - `shinyUI`
+        - `titlePanel` displays name of app
+        - `sidebarPanel` uses `checkboxGroupInput`
+        - `mainPanel` shows `dataTableOutput`
+
+3 - Server renders the data table with options.
+
+    - `shinyServer`
+        - output variable set to `renderDataTable` based on `input$stat` defined by `checkboxGroupInput`
+        - used renderDataTable options:
+            - `order=(list(1,'desc'))` sets default order
+            - `lengthMenu = c(5, 10, 20, 50)` to populate dropdown allowing varying page lengths
+            - `orderClasses = TRUE` highlights rows ordered
+            - `pageLength=10` sets default page length
+
+Credits
+========================================================
+transition: rotate
+left: 50%
+Packages Used:
+- Lahman
+    - Contains Major League Baseball data on pitching, hitting and fielding performance and other tables from 1871 through 2014, as recorded in the 2015 version of the database.
+- dplyr
+- sqldf
+- shiny / shinyapps
+
+Tools used:
+- R Studio (R version 3.2.2)
+- R Studio Presenter
+- GitHub
